@@ -7,7 +7,7 @@ from utils.totalizadores import df_bairro, df_zona, df_mapa, df_opcao
 
 
     
-    #Criando o gráfico de distribuicao por zona
+#Criando o gráfico de distribuicao por zona
 def grafico_zona(df):
         df_agrupado = df.groupby('Região')[['Bairro']].count().reset_index()
         
