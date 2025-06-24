@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 st.set_page_config(
-    page_title="Meu App Customizado",  # Título da aba do navegador
+    page_title="App Compras Recife",  # Título da aba do navegador
     page_icon="🚀",                     # Ícone da aba (favicon), opcional
     layout="wide"                      # Layout da página, opcional
 )
