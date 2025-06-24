@@ -1,5 +1,6 @@
 import streamlit as st
-
+from utils.totalizadores import calcular_o_tamnnho_df, calular_a_quantidade_de_colunas
+from dados.compras import df
 
 def filtros_aplicados_nas_colunas(df):
     # Opções são os nomes das colunas
@@ -15,33 +16,29 @@ def filtros_aplicados_nas_colunas(df):
         # Se não selecionar nada, retorna o DataFrame original
         return df
 
-def calcular_o_tamnnho_df(df):
-    return df.shape[0]    
-
-def calular_a_quantidade_de_colunas(df):
-    colunasDisponiveis = sorted(df.columns)
-    return len(colunasDisponiveis)  
 
 def dataframe(df_filtrado):
-    st.markdown("<hr style='border:2px solid #0b3d91;'>",
+    st.markdown("<hr>",
     unsafe_allow_html=True)
 
     st.markdown(
         f"""
-        <div style="text-align: center;  color: #0b3d91; margin-top: 60px">
+        <div style="text-align: center;   margin-top: 60px">
             <h3>Download dos dados</h3>
                         
         </div>
         """, unsafe_allow_html=True
     )
-
+    df_filtrao = df
     df_filtrado = filtros_aplicados_nas_colunas(df_filtrado)
     st.dataframe(df_filtrado)
     totalLinhas = calcular_o_tamnnho_df(df_filtrado)
     totalColunas =  calular_a_quantidade_de_colunas(df_filtrado)
     
     csv = df_filtrado.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+
     col1, col2, col3 =  st.columns([3,1,1])
+   
     with col1:
         st.download_button(
             label="📥 Baixar CSV",

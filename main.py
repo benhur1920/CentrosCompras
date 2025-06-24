@@ -1,12 +1,24 @@
 import streamlit as st
+import os
+
+st.set_page_config(layout="wide")
+
+
 from dados.compras import df
 from streamlit_option_menu import option_menu
-from utils import sobre, graficos, dataframe,totalizadores
+from utils import sobre, graficos, dataframe
 from datetime import date
 from utils.totalizadores import hoje
 
+# Criando os estilos num arquivo css
+def carregar_css():
+    css_path = os.path.join(os.path.dirname(__file__), 'css', 'assets.css')
+    with open(css_path) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-st.set_page_config(layout="wide")
+# chamando a funcao para carregamento do CSS
+carregar_css()
+
 
 # Mostra a data mais recente, importar dos totalizadores.py
 #st.write(f"📅 Última atualização dos dados: {ultima_data.strftime('%d/%m/%Y')}")
@@ -15,26 +27,37 @@ def titulo_pagina():
     col1, col2 = st.columns([3, 1])
     with col1:
         st.markdown(
-            "<h1 style='color: #0b3d91;'>Centros de Comércio do Recife</h1>"
-            "<p style='color: #0b3d91;'>Fonte: Dados abertos da Prefeitura do Recife</p>",
+            "<h1>Centros de Comércio do Recife</h1>"
+            "<p>Fonte: Dados abertos da Prefeitura do Recife</p>",
             unsafe_allow_html=True
         )
     with col2:
         st.markdown(
-            """
-            <div style="margin-top: 40px;">
-                <a href="https://dados.recife.pe.gov.br/" target="_blank"
-                style="text-decoration: none; color: white; background-color: #0b3d91;
-                padding: 8px 12px; border-radius: 5px; display: inline-block;">
-                    🔗 Acessar fonte dos dados
-                </a>
-            </div>
-            """,
-            unsafe_allow_html=True
-        
+                """
+                <div style="margin-top: 40px;">
+                    <a href="https://dados.recife.pe.gov.br/" target="_blank" class="botao-link">
+                        🔗 Acessar fonte dos dados
+                    </a>
+                </div>
+                """, unsafe_allow_html=True
         )
         # Exibe a data no formato desejado
         st.write(f"📅 Dados atualizados em: {hoje.strftime('%d/%m/%Y')}")
+
+
+def filtros_aplicados(df, nome_do_filtro):
+    # Opções são os nomes das colunas
+    opcoes_disponiveis = sorted(df[nome_do_filtro].dropna().unique())
+
+    # Multiselect para escolher o filtro
+    filtro_opcao = st.multiselect(f'Selecione {nome_do_filtro}', opcoes_disponiveis)
+
+    # Se o usuário selecionar colunas
+    if filtro_opcao:
+        return df[df[nome_do_filtro].isin(filtro_opcao)]
+    else:
+        # Se não selecionar nada, retorna o DataFrame original
+        return df
 
 
 
@@ -48,35 +71,30 @@ def criacao_navegacao_e_filtros():
         selected = option_menu(
             menu_title="Conheça",
             options=["Sobre", "Dashboards", "Dataframe"],
-            #icons=["house", "gear"],
-            #menu_icon="cast",
+            icons=["info-circle", "bar-chart", "table"],
+            menu_icon="cast",  # Ícone do próprio menu
             default_index=0
         )
 
         # Título dos filtros
-        st.markdown("<h1 style='color: #0b3d91;'>Filtros</h1>", unsafe_allow_html=True)
+        st.markdown("<h1>Filtros</h1>", unsafe_allow_html=True)
 
         # Filtro de Opção
-        opcoes_disponiveis = sorted(df_filtrado['Opção'].dropna().unique())
-        filtro_opcao = st.multiselect('Selecione a Opção', opcoes_disponiveis)
-        if filtro_opcao:
-            df_filtrado = df_filtrado[df_filtrado['Opção'].isin(filtro_opcao)]
-
+        df_filtrado = filtros_aplicados(df_filtrado, 'Opção')
+        
         # Filtro de Zona
-        zonas_disponiveis = sorted(df_filtrado['Região'].dropna().unique())
-        filtro_zona = st.multiselect('Selecione a Zona', zonas_disponiveis)
-        if filtro_zona:
-            df_filtrado = df_filtrado[df_filtrado['Região'].isin(filtro_zona)]
-
+        df_filtrado = filtros_aplicados(df_filtrado, 'Região')
+       
         # Filtro de Bairro
-        bairros_disponiveis = sorted(df_filtrado['Bairro'].dropna().unique())
-        filtro_bairro = st.multiselect('Selecione o Bairro', bairros_disponiveis)
-        if filtro_bairro:
-            df_filtrado = df_filtrado[df_filtrado['Bairro'].isin(filtro_bairro)]
+        df_filtrado = filtros_aplicados(df_filtrado, 'Bairro')
+
+    #  Calcular o total de linhas filtradas
+    totalLinhas = df_filtrado.shape[0]
 
     # Conteúdo principal
     if selected == "Sobre":
-        sobre.mainSobre()
+        totalLinhas = df_filtrado.shape[0]
+        sobre.mainSobre(totalLinhas)
     elif selected == "Dashboards":
         graficos.mainGraficos(df_filtrado)
     else:

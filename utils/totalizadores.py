@@ -8,12 +8,16 @@ from datetime import date
 hoje = date.today()
 
 
-
-
-
 #Calculo da ultima e menor data do sistema
 #ultima_data =  df['data'].max()
 #primeira_data =  df['data'].min()
+
+def calcular_o_tamnnho_df(df):
+    return df.shape[0]    
+
+def calular_a_quantidade_de_colunas(df):
+    colunasDisponiveis = sorted(df.columns)
+    return len(colunasDisponiveis)  
 
 
 # Calculo da quantidade de pontos de wifi

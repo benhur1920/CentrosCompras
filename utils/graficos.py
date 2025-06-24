@@ -25,7 +25,7 @@ def grafico_zona(df):
                 'xanchor': 'center',
                 'font': {
                     'size': 22,
-                    'color': '#0b3d91'
+                    
                 }
             }
         )
@@ -51,7 +51,7 @@ def grafico_bairro(df):
                 'xanchor': 'center',
                 'font': {
                     'size': 22,
-                    'color':  '#0b3d91'
+                    
                 }
             }
         )
@@ -74,7 +74,7 @@ def grafico_opcao(df):
                 'xanchor': 'center',
                 'font': {
                     'size': 22,
-                    'color':  '#0b3d91'
+                    
                 }
             }
         )
@@ -109,7 +109,7 @@ def grafico_mapa(df):
             'xanchor': 'center',
             'font': {
                 'size': 22,
-                'color': '#0b3d91'
+                
             }
         }
     )
@@ -119,7 +119,7 @@ def grafico_mapa(df):
 
 def mainGraficos(df_filtrado):
 
-    st.markdown("<hr style='border:2px solid #0b3d91;'>", unsafe_allow_html=True)
+    st.markdown("<hr>", unsafe_allow_html=True)
 
     figura_zona = grafico_zona(df_filtrado)
     figura_bairro = grafico_bairro(df_filtrado)
@@ -135,7 +135,7 @@ def mainGraficos(df_filtrado):
     with col3:
         st.plotly_chart(fig_opcao, use_container_width=True, stack=False)
 
-    st.markdown("<hr style='border:2px solid #0b3d91;'>", unsafe_allow_html=True)
+    st.markdown("<hr>", unsafe_allow_html=True)
 
     fig_mapa.update_layout(mapbox_style="open-street-map")
     fig_mapa.update_layout(margin={"r":0, "t":30, "l":0, "b":0})
