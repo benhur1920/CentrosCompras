@@ -10,7 +10,7 @@ st.set_page_config(
 
 from dados.compras import df
 from streamlit_option_menu import option_menu
-from utils import sobre, graficos, dataframe
+from utils import sobre, dashboard, dataframe
 from datetime import date
 from utils.totalizadores import hoje
 
@@ -100,7 +100,7 @@ def criacao_navegacao_e_filtros():
         totalLinhas = df_filtrado.shape[0]
         sobre.mainSobre(totalLinhas)
     elif selected == "Dashboards":
-        graficos.mainGraficos(df_filtrado)
+        dashboard.mainDashboards(df_filtrado, df)
     else:
         dataframe.mainDataframe(df_filtrado)
 

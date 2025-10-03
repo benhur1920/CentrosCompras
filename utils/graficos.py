@@ -1,8 +1,9 @@
 import matplotlib as pl
 import plotly.express as px
 import streamlit as st
+import pandas as pd
 from utils.totalizadores import df_bairro, df_zona, df_mapa, df_opcao
-#from funcoes import df_bairro, df_zona, df_mapa
+
 
 
 
@@ -51,7 +52,7 @@ def grafico_bairro(df):
                 'xanchor': 'center',
                 'font': {
                     'size': 22,
-                    
+                   
                 }
             }
         )
@@ -117,30 +118,3 @@ def grafico_mapa(df):
     return fig3
 
 
-def mainGraficos(df_filtrado):
-
-    st.markdown("<hr>", unsafe_allow_html=True)
-
-    figura_zona = grafico_zona(df_filtrado)
-    figura_bairro = grafico_bairro(df_filtrado)
-    fig_mapa = grafico_mapa(df_filtrado)
-    fig_opcao = grafico_opcao(df_filtrado)
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.plotly_chart(figura_zona, use_container_width=True ) #config={"displayModeBar": False})
-    with col2:
-        st.plotly_chart(figura_bairro, use_container_width=True, stack=False)
-    with col3:
-        st.plotly_chart(fig_opcao, use_container_width=True, stack=False)
-
-    st.markdown("<hr>", unsafe_allow_html=True)
-
-    fig_mapa.update_layout(mapbox_style="open-street-map")
-    fig_mapa.update_layout(margin={"r":0, "t":30, "l":0, "b":0})
-
-    # Aplica a margem com a div
-    st.markdown('<div class="grafico-com-margem">', unsafe_allow_html=True)
-    st.plotly_chart(fig_mapa, use_container_width=True)
-    st.markdown('</div>', unsafe_allow_html=True)

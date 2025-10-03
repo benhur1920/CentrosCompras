@@ -19,6 +19,10 @@ def calular_a_quantidade_de_colunas(df):
     colunasDisponiveis = sorted(df.columns)
     return len(colunasDisponiveis)  
 
+def calcular_total_centro_compras(df, nome):
+    return (df['Opção'] == nome).sum()
+
+
 
 # Calculo da quantidade de pontos de wifi
 totalOpcoesCompras = df.shape[0]
