@@ -3,11 +3,11 @@ import unidecode
 
 def carregando_as_urls(opcao):
     if opcao == 'mercado':
-        url = 'http://dados.recife.pe.gov.br/dataset/eeee4ac5-d0e0-490b-aac0-490a6de74e07/resource/40d97dcb-4a14-4365-bced-8555998a498d/download/mercadospublicos.csv'
+        url = 'https://dados.recife.pe.gov.br/dataset/21eb894b-ebb7-4e83-aad9-ce84eaf744dd/resource/7939c832-2178-4d2d-a5a9-ded045036a75/download/mercados-publicos.csv'
     elif opcao == 'feira':
-        url = 'http://dados.recife.pe.gov.br/dataset/eeee4ac5-d0e0-490b-aac0-490a6de74e07/resource/dc6b3d07-3124-453d-b11e-72364cced7aa/download/feiraslivres.csv'
+        url = 'https://dados.recife.pe.gov.br/dataset/21eb894b-ebb7-4e83-aad9-ce84eaf744dd/resource/56f14d8d-fe2f-4f47-988e-c744526899d6/download/feiras-livres.csv'
     else:
-        url = 'http://dados.recife.pe.gov.br/dataset/eeee4ac5-d0e0-490b-aac0-490a6de74e07/resource/81f406de-8468-4bb9-b038-0956d6684acd/download/shopping.csv'
+        url = 'https://dados.recife.pe.gov.br/dataset/21eb894b-ebb7-4e83-aad9-ce84eaf744dd/resource/d674f356-a47d-40d3-832a-006119e9927b/download/centros-de-compras.csv'
     return url
 
 
